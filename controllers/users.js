@@ -8,7 +8,7 @@ const OK = 200;
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => {
-      res.status(OK).send(users);
+      res.status(OK).send({data: users});
     })
     .catch(() => {
       res
@@ -25,10 +25,10 @@ const getUser = (req, res) => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
     .then((user) => {
-      res.status(OK).send(user);
+      res.status(OK).send({data: user});
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === "CastError") {
         res
         .status(BAD_REQUEST)
         .send({ message: "Переданы некорректные данные" });
@@ -46,7 +46,7 @@ const createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((user) => {
-      res.status(OK).send(user);
+      res.status(OK).send({data: user});
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -70,7 +70,7 @@ const updateProfile = (req, res) => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
     .then((user) => {
-      res.status(OK).send(user);
+      res.status(OK).send({data: user});
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -94,7 +94,7 @@ const updateAvatar = (req, res) => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
     .then((user) => {
-      res.status(OK).send(user);
+      res.status(OK).send({data: user});
     })
     .catch((err) => {
       if (err.name === "ValidationError") {

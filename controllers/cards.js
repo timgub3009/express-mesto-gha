@@ -8,7 +8,7 @@ const OK = 200;
 const getCards = (req, res) => {
   Card.find({})
     .then((cards) => {
-      res.status(OK).send(cards);
+      res.status(OK).send({data: cards});
     })
     .catch(() => {
       res
@@ -23,7 +23,7 @@ const createCard = (req, res) => {
 
   Card.create({ name, link, owner })
     .then((card) => {
-      res.status(OK).send(card);
+      res.status(OK).send({data: card});
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -70,8 +70,8 @@ const likeCard = (req, res) => {
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
-    .then((card) => {
-      res.status(OK).send(card);
+    .then((likes) => {
+      res.status(OK).send({data: likes});
     })
     .catch((err) => {
       if (err.name === "CastError") {
@@ -95,8 +95,8 @@ const deleteCardLike = (req, res) => {
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
-    .then((card) => {
-      res.status(OK).send(card);
+    .then((likes) => {
+      res.status(OK).send({data: likes});
     })
     .catch((err) => {
       if (err.name === "CastError") {
