@@ -25,16 +25,15 @@ const createCard = (req, res) => {
     .then((card) => {
       res.status(OK).send(card);
     })
-    .catch(() => {
-      if (err.name === "CastError") {
-        res
-          .status(INTERNAL_SERVER_ERROR)
-          .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
+    .catch((err) => {
+      if (err.name === "ValidationError") {
         res
           .status(BAD_REQUEST)
           .send({ message: "Переданы некорректные данные" });
+      } else {
+        res
+          .status(INTERNAL_SERVER_ERROR)
+          .send({ message: "На сервере произошла ошибка" });
       }
     });
 };
@@ -49,16 +48,15 @@ const deleteCard = (req, res) => {
     .then((card) => {
       res.status(OK).send(card);
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "CastError") {
-        res
-          .status(INTERNAL_SERVER_ERROR)
-          .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
         res
           .status(BAD_REQUEST)
           .send({ message: "Переданы некорректные данные" });
+      } else {
+        res
+          .status(INTERNAL_SERVER_ERROR)
+          .send({ message: "На сервере произошла ошибка" });
       }
     });
 };
@@ -75,16 +73,15 @@ const likeCard = (req, res) => {
     .then((card) => {
       res.status(OK).send(card);
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "CastError") {
-        res
-          .status(INTERNAL_SERVER_ERROR)
-          .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
         res
           .status(BAD_REQUEST)
           .send({ message: "Переданы некорректные данные" });
+      } else {
+        res
+          .status(INTERNAL_SERVER_ERROR)
+          .send({ message: "На сервере произошла ошибка" });
       }
     });
 };
@@ -101,16 +98,15 @@ const deleteCardLike = (req, res) => {
     .then((card) => {
       res.status(OK).send(card);
     })
-    .catch(() => {
+    .catch((err) => {
       if (err.name === "CastError") {
-        res
-          .status(INTERNAL_SERVER_ERROR)
-          .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
         res
           .status(BAD_REQUEST)
           .send({ message: "Переданы некорректные данные" });
+      } else {
+        res
+          .status(INTERNAL_SERVER_ERROR)
+          .send({ message: "На сервере произошла ошибка" });
       }
     });
 };

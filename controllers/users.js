@@ -28,15 +28,15 @@ const getUser = (req, res) => {
       res.status(OK).send(user);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === "ValidationError") {
+        res
+        .status(BAD_REQUEST)
+        .send({ message: "Переданы некорректные данные" });
+      } else
+      {
         res
           .status(INTERNAL_SERVER_ERROR)
           .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
-        res
-          .status(BAD_REQUEST)
-          .send({ message: "Переданы некорректные данные" });
       }
     });
 };
@@ -49,15 +49,15 @@ const createUser = (req, res) => {
       res.status(OK).send(user);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === "ValidationError") {
+        res
+        .status(BAD_REQUEST)
+        .send({ message: "Переданы некорректные данные" });
+      } else
+      {
         res
           .status(INTERNAL_SERVER_ERROR)
           .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
-        res
-          .status(BAD_REQUEST)
-          .send({ message: "Переданы некорректные данные" });
       }
     });
 };
@@ -65,23 +65,23 @@ const createUser = (req, res) => {
 const updateProfile = (req, res) => {
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name, about })
+  User.findByIdAndUpdate(req.user._id, { name, about }, {new: true, runValidators: true})
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
     .then((user) => {
       res.status(OK).send(user);
     })
-    .catch(() => {
-      if (err.name === "CastError") {
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        res
+        .status(BAD_REQUEST)
+        .send({ message: "Переданы некорректные данные" });
+      } else
+      {
         res
           .status(INTERNAL_SERVER_ERROR)
           .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
-        res
-          .status(BAD_REQUEST)
-          .send({ message: "Переданы некорректные данные" });
       }
     });
 };
@@ -89,23 +89,23 @@ const updateProfile = (req, res) => {
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, avatar)
+  User.findByIdAndUpdate(req.user._id, avatar, {new: true, runValidators: true})
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
     .then((user) => {
       res.status(OK).send(user);
     })
-    .catch(() => {
-      if (err.name === "CastError") {
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        res
+        .status(BAD_REQUEST)
+        .send({ message: "Переданы некорректные данные" });
+      } else
+      {
         res
           .status(INTERNAL_SERVER_ERROR)
           .send({ message: "На сервере произошла ошибка" });
-      } else err.name === "ValidationError";
-      {
-        res
-          .status(BAD_REQUEST)
-          .send({ message: "Переданы некорректные данные" });
       }
     });
 };
