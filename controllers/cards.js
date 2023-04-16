@@ -8,7 +8,7 @@ const OK = 200;
 const getCards = (req, res) => {
   Card.find({})
     .then((cards) => {
-      res.status(OK).send({data: cards});
+      res.status(OK).send({ data: cards });
     })
     .catch(() => {
       res
@@ -19,11 +19,10 @@ const getCards = (req, res) => {
 
 const createCard = (req, res) => {
   const { name, link } = req.body;
-  const owner = req.user._id;
 
-  Card.create({ name, link, owner })
+  Card.create({ name, link, owner: req.user._id })
     .then((card) => {
-      res.status(OK).send({data: card});
+      res.status(OK).send({ data: card });
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -39,9 +38,7 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
-  const { cardId } = req.params;
-
-  Card.findByIdAndRemove(cardId)
+  Card.findByIdAndRemove(req.params.cardId)
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
@@ -71,7 +68,7 @@ const likeCard = (req, res) => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
     .then((likes) => {
-      res.status(OK).send({data: likes});
+      res.status(OK).send({ data: likes });
     })
     .catch((err) => {
       if (err.name === "CastError") {
@@ -96,7 +93,7 @@ const deleteCardLike = (req, res) => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
     .then((likes) => {
-      res.status(OK).send({data: likes});
+      res.status(OK).send({ data: likes });
     })
     .catch((err) => {
       if (err.name === "CastError") {
