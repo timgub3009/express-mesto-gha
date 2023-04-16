@@ -89,7 +89,7 @@ const updateProfile = (req, res) => {
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, avatar, {new: true, runValidators: true})
+  User.findByIdAndUpdate(req.user._id, {avatar}, {new: true, runValidators: true})
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Запрашиваемый объект не найден" });
     })
