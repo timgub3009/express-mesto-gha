@@ -1,14 +1,15 @@
 const Card = require('../models/card');
 
-const BAD_REQUEST = 400;
-const NOT_FOUND = 404;
-const INTERNAL_SERVER_ERROR = 500;
-const OK = 200;
+const {
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  BAD_REQUEST,
+} = require('../utils/errors');
 
 const getCards = (req, res) => {
   Card.find({})
     .then((cards) => {
-      res.status(OK).send({ data: cards });
+      res.status(200).send({ data: cards });
     })
     .catch(() => {
       res
@@ -22,7 +23,7 @@ const createCard = (req, res) => {
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => {
-      res.status(OK).send({ data: card });
+      res.status(201).send({ data: card });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -43,7 +44,7 @@ const deleteCard = (req, res) => {
       res.status(NOT_FOUND).send({ message: 'Запрашиваемый объект не найден' });
     })
     .then((card) => {
-      res.status(OK).send(card);
+      res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -68,7 +69,7 @@ const likeCard = (req, res) => {
       res.status(NOT_FOUND).send({ message: 'Запрашиваемый объект не найден' });
     })
     .then((likes) => {
-      res.status(OK).send({ data: likes });
+      res.status(200).send({ data: likes });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -93,7 +94,7 @@ const deleteCardLike = (req, res) => {
       res.status(NOT_FOUND).send({ message: 'Запрашиваемый объект не найден' });
     })
     .then((likes) => {
-      res.status(OK).send({ data: likes });
+      res.status(200).send({ data: likes });
     })
     .catch((err) => {
       if (err.name === 'CastError') {

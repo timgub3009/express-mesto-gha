@@ -1,14 +1,14 @@
 const User = require('../models/user');
-
-const BAD_REQUEST = 400;
-const NOT_FOUND = 404;
-const INTERNAL_SERVER_ERROR = 500;
-const OK = 200;
+const {
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  BAD_REQUEST,
+} = require('../utils/errors');
 
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => {
-      res.status(OK).send({ data: users });
+      res.status(200).send({ data: users });
     })
     .catch(() => {
       res
@@ -25,7 +25,7 @@ const getUser = (req, res) => {
       res.status(NOT_FOUND).send({ message: 'Запрашиваемый объект не найден' });
     })
     .then((user) => {
-      res.status(OK).send({ data: user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -45,7 +45,7 @@ const createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((user) => {
-      res.status(OK).send({ data: user });
+      res.status(201).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -68,7 +68,7 @@ const updateProfile = (req, res) => {
       res.status(NOT_FOUND).send({ message: 'Запрашиваемый объект не найден' });
     })
     .then((user) => {
-      res.status(OK).send({ data: user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -91,7 +91,7 @@ const updateAvatar = (req, res) => {
       res.status(NOT_FOUND).send({ message: 'Запрашиваемый объект не найден' });
     })
     .then((user) => {
-      res.status(OK).send({ data: user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

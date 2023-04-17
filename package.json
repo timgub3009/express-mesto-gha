@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/timgub3009/express-mesto-gha.git"
   },
-  "author": "",
+  "author": "Timur Gubeidulin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/timgub3009/express-mesto-gha/issues"
@@ -23,9 +23,6 @@
     "eslint": "^8.38.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "nodemon": "^2.0.22"
   },
   "dependencies": {

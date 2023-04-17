@@ -23,9 +23,8 @@ app.use((req, res, next) => {
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
-app.use('*', (req, res, next) => {
+app.use('*', (req, res) => {
   res.status(NOT_FOUND).send({ message: 'Запрашиваемый ресурс не найден' });
-  next();
 });
 
 app.listen(PORT);
