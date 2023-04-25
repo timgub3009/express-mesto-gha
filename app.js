@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
+const { createUser, login } = require('./controllers/users');
+const auth = require('./middlewares/auth');
 
 const NOT_FOUND = 404;
 
@@ -13,19 +15,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '643c4eecd65306f08a8fd7b2', // вставьте сюда _id созданного в предыдущем пункте пользователя
-  };
-
-  next();
-});
-
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 app.use('*', (req, res) => {
   res.status(NOT_FOUND).send({ message: 'Запрашиваемый ресурс не найден' });
 });
+app.post('/signin', login);
+app.post('/signup', createUser);
+
+app.use(auth);
 
 app.listen(PORT);
 

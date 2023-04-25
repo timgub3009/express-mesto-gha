@@ -44,7 +44,9 @@ const deleteCard = (req, res) => {
       res.status(NOT_FOUND).send({ message: 'Запрашиваемый объект не найден' });
     })
     .then((card) => {
-      res.status(200).send(card);
+      if (card.owner === req.user._id) {
+        res.status(200).send(card);
+      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
