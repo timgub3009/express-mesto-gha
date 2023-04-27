@@ -16,14 +16,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.post('/signin', loginValidation, login);
+app.post('/signup', userValidation, createUser);
+
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
-
-app.post('/signin', loginValidation, login);
-app.post('/signup', userValidation, createUser);
 
 app.use(auth);
 
@@ -38,8 +38,11 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(PORT);
-
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
+});
+
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`App listening on port ${PORT}`);
 });
