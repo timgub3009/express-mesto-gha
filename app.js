@@ -19,13 +19,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/signin', loginValidation, login);
 app.post('/signup', userValidation, createUser);
 
-app.use('/users', userRouter);
-app.use('/cards', cardRouter);
+app.use('/', auth, userRouter);
+app.use('/', auth, cardRouter);
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
-
-app.use(auth);
 
 app.use(errors());
 
