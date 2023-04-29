@@ -20,9 +20,15 @@ const profileValidation = celebrate({
   }),
 });
 
-const idValidation = celebrate({
+const userIdValidation = celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().alphanum().length(24),
+    userId: Joi.string().alphanum().length(24),
+  }).unknown(true),
+});
+
+const cardIdValidation = celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().alphanum().length(24),
   }).unknown(true),
 });
 
@@ -49,7 +55,8 @@ const cardValidation = celebrate({
 module.exports = {
   userValidation,
   profileValidation,
-  idValidation,
+  userIdValidation,
+  cardIdValidation,
   avatarValidation,
   loginValidation,
   cardValidation,
