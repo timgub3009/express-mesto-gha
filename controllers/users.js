@@ -15,6 +15,8 @@ const getUsers = (req, res, next) => {
 
 const getUser = (req, res, next) => {
   const { userId } = req.params;
+  // eslint-disable-next-line no-console
+  console.log(userId);
 
   User.findById(userId)
     .orFail(() => {
