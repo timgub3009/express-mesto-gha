@@ -16,16 +16,16 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.post('/signin', loginValidation, login);
+app.post('/signup', userValidation, createUser);
+
+app.use(auth);
+
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
-
-app.post('/signin', loginValidation, login);
-app.post('/signup', userValidation, createUser);
-
-app.use(auth);
 
 app.use(errors());
 
