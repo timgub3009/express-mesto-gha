@@ -33,7 +33,7 @@ const deleteCard = (req, res, next) => {
       throw new NotFoundError('Запрашиваемый объект не найден');
     })
     .then((card) => {
-      if (card.owner === req.user._id) {
+      if (card.owner.toString() === req.user._id) {
         res.send(card);
       } else {
         throw new ForbiddenError('Нет доступа');
