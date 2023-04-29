@@ -83,10 +83,9 @@ const updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 const updateAvatar = (req, res, next) => {
@@ -106,10 +105,9 @@ const updateAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 const login = (req, res, next) => {

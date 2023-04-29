@@ -21,10 +21,9 @@ const createCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 const deleteCard = (req, res, next) => {
@@ -57,10 +56,9 @@ const likeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 const deleteCardLike = (req, res, next) => {
@@ -78,10 +76,9 @@ const deleteCardLike = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 module.exports = {
