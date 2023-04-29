@@ -47,7 +47,12 @@ const createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      res.send({ data: user });
+      res.send({
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+      });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -56,10 +61,9 @@ const createUser = (req, res, next) => {
         throw new ConflictError(
           'Пользователь с таким почтовым адресом уже зарегистрирован',
         );
-      } else {
-        next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 const updateProfile = (req, res, next) => {
