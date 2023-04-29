@@ -80,9 +80,10 @@ const deleteCardLike = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные');
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports = {
