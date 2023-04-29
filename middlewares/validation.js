@@ -23,13 +23,13 @@ const profileValidation = celebrate({
 const userIdValidation = celebrate({
   params: Joi.object().keys({
     userId: Joi.string().alphanum().length(24),
-  }).unknown(true),
+  }),
 });
 
 const cardIdValidation = celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().alphanum().length(24),
-  }).unknown(true),
+  }),
 });
 
 const avatarValidation = celebrate({
