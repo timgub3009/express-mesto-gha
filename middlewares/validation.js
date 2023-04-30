@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
-const regex = require('../utils/config');
+const { regex } = require('../utils/config');
 
 const userValidation = celebrate({
   body: Joi.object().keys({
