@@ -1,6 +1,6 @@
 const { CastError, ValidationError } = require('mongoose').Error;
 const { BAD_REQUEST_ERROR_CODE, SERVER_ERROR_CODE, CONFLICT_ERROR_CODE } = require('../utils/config');
-const BadRequestError = require('./BadRequestError');
+const NotFoundError = require('./NotFoundError');
 const ForbiddenError = require('./ForbiddenError');
 const UnauthorizedError = require('./UnauthorizedError');
 
@@ -13,7 +13,7 @@ module.exports = ((err, req, res, next) => {
     return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Переданы некорректные данные' });
   }
 
-  if (err instanceof BadRequestError) {
+  if (err instanceof NotFoundError) {
     return res.status(err.statusCode).send({ message: err.message });
   }
 
