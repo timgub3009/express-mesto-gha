@@ -8,8 +8,7 @@ const auth = require('./middlewares/auth');
 const { loginValidation, userValidation } = require('./middlewares/validation');
 const handelErrors = require('./middlewares/handelErrors');
 const routes = require('./routes/index');
-
-const { PORT = 3000 } = process.env;
+const { PORT, DATABASE } = require('./utils/config');
 
 const app = express();
 
@@ -27,6 +26,6 @@ app.use(handelErrors);
 
 app.listen(PORT);
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
+mongoose.connect(DATABASE, {
   useNewUrlParser: true,
 });

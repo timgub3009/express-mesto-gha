@@ -5,6 +5,7 @@ const Card = require('../models/card');
 
 const getCards = (req, res, next) => {
   Card.find({})
+    .populate(['owner', 'likes'])
     .then((cards) => {
       res.send({ data: cards });
     })
@@ -15,6 +16,7 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
+    .then((card) => card.populate('owner'))
     .then((card) => {
       res.send({ data: card });
     })
@@ -52,6 +54,7 @@ const likeCard = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Запрашиваемый объект не найден');
     })
+    .populate(['owner', 'likes'])
     .then((likes) => {
       res.send({ data: likes });
     })
@@ -74,6 +77,7 @@ const deleteCardLike = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Запрашиваемый объект не найден');
     })
+    .populate(['owner', 'likes'])
     .then((likes) => {
       res.send({ data: likes });
     })
