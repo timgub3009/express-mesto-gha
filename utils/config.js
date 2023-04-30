@@ -3,6 +3,9 @@ const UNAUTHORIZED_ERROR_CODE = 401;
 const FORBIDDEN_ERROR_CODE = 403;
 const NOT_FOUND_ERROR_CODE = 404;
 const CONFLICT_ERROR_CODE = 409;
+const SERVER_ERROR_CODE = 500;
+
+const OK = 201;
 
 const regex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_[\]+.~#?&[\]/=]*)$/;
 
@@ -15,6 +18,8 @@ module.exports = {
   FORBIDDEN_ERROR_CODE,
   NOT_FOUND_ERROR_CODE,
   CONFLICT_ERROR_CODE,
+  SERVER_ERROR_CODE,
+  OK,
   PORT,
   DATABASE,
   regex,

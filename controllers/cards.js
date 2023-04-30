@@ -1,6 +1,6 @@
-const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
+const { OK } = require('../utils/config');
 const Card = require('../models/card');
 
 const getCards = (req, res, next) => {
@@ -18,15 +18,9 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => card.populate('owner'))
     .then((card) => {
-      res.send({ data: card });
+      res.status(OK).send({ data: card });
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 const deleteCard = (req, res, next) => {
@@ -44,13 +38,9 @@ const deleteCard = (req, res, next) => {
     .catch(next);
 };
 
-const likeCard = (req, res, next) => {
+const handleLikes = (req, res, data, next) => {
   const { cardId } = req.params;
-  Card.findByIdAndUpdate(
-    cardId,
-    { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
-    { new: true },
-  )
+  Card.findByIdAndUpdate(cardId, data, { new: true })
     .orFail(() => {
       throw new NotFoundError('Запрашиваемый объект не найден');
     })
@@ -58,36 +48,17 @@ const likeCard = (req, res, next) => {
     .then((likes) => {
       res.send({ data: likes });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
+};
+
+const likeCard = (req, res, next) => {
+  const data = { $addToSet: { likes: req.user._id } };
+  handleLikes(req, res, data, next);
 };
 
 const deleteCardLike = (req, res, next) => {
-  const { cardId } = req.params;
-  Card.findByIdAndUpdate(
-    cardId,
-    { $pull: { likes: req.user._id } }, // убрать _id из массива
-    { new: true },
-  )
-    .orFail(() => {
-      throw new NotFoundError('Запрашиваемый объект не найден');
-    })
-    .populate(['owner', 'likes'])
-    .then((likes) => {
-      res.send({ data: likes });
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new BadRequestError('Переданы некорректные данные');
-      } else {
-        next(err);
-      }
-    });
+  const data = { $pull: { likes: req.user._id } };
+  handleLikes(req, res, data, next);
 };
 
 module.exports = {

@@ -6,7 +6,7 @@ const { errors } = require('celebrate');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { loginValidation, userValidation } = require('./middlewares/validation');
-const handelErrors = require('./middlewares/handelErrors');
+const handelErrors = require('./errors/handelErrors');
 const routes = require('./routes/index');
 const { PORT, DATABASE } = require('./utils/config');
 
