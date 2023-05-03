@@ -24,13 +24,16 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .orFail(() => {
       throw new NotFoundError('Запрашиваемый объект не найден');
     })
     .then((card) => {
       if (card.owner.toString() === req.user._id) {
-        res.send(card);
+        Card.deleteOne()
+          .then(() => {
+            res.send({ data: card });
+          });
       } else {
         throw new ForbiddenError('Нет доступа');
       }

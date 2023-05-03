@@ -5,11 +5,7 @@ const ForbiddenError = require('./ForbiddenError');
 const UnauthorizedError = require('./UnauthorizedError');
 
 module.exports = ((err, req, res, next) => {
-  if (err instanceof CastError) {
-    return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Переданы некорректные данные' });
-  }
-
-  if (err instanceof ValidationError) {
+  if (err instanceof CastError || err instanceof ValidationError) {
     return res.status(BAD_REQUEST_ERROR_CODE).send({ message: 'Переданы некорректные данные' });
   }
 
