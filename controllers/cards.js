@@ -18,7 +18,7 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => card.populate('owner'))
     .then((card) => {
-      res.status(OK).send({ data: card, message: 'Карточка создана' });
+      res.status(OK).send({ data: card });
     })
     .catch(next);
 };
@@ -33,7 +33,7 @@ const deleteCard = (req, res, next) => {
       if (!card.owner.equals(req.user._id)) {
         throw new ForbiddenError('Нельзя удалить чужую карточку');
       } else {
-        return Card.deleteOne(card).then(() => res.send({ data: card, message: 'Карточка удалена' }));
+        return Card.deleteOne(card).then(() => res.send({ data: card }));
       }
     })
     .catch(next);
