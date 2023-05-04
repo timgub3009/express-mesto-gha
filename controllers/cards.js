@@ -18,7 +18,7 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => card.populate('owner'))
     .then((card) => {
-      res.status(OK).send({ data: card });
+      res.status(OK).send({ data: card, message: 'Карточка создана' });
     })
     .catch(next);
 };
@@ -27,16 +27,13 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   Card.findById(cardId)
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемый объект не найден');
+      throw new NotFoundError('Нет карточки по заданному id');
     })
     .then((card) => {
-      if (card.owner.toString() === req.user._id) {
-        Card.findByIdAndRemove(cardId)
-          .then(() => {
-            res.send({ data: card });
-          });
+      if (!card.owner.equals(req.user._id)) {
+        throw new ForbiddenError('Нельзя удалить чужую карточку');
       } else {
-        throw new ForbiddenError('Нет доступа');
+        return Card.deleteOne(card).then(() => res.send({ data: card, message: 'Карточка удалена' }));
       }
     })
     .catch(next);
@@ -46,7 +43,7 @@ const handleLikes = (req, res, data, next) => {
   const { cardId } = req.params;
   Card.findByIdAndUpdate(cardId, data, { new: true })
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемый объект не найден');
+      throw new NotFoundError('Нет карточки по заданному id');
     })
     .populate(['owner', 'likes'])
     .then((likes) => {

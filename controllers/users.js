@@ -59,7 +59,7 @@ const handleUserUpdate = (req, res, data, next) => {
   const userId = req.user._id;
   User.findByIdAndUpdate(userId, data, { new: true, runValidators: true })
     .orFail(() => {
-      throw new NotFoundError('Запрашиваемый объект не найден');
+      throw new NotFoundError('Пользователь не найден');
     })
     .then((user) => {
       res.send({ data: user });
